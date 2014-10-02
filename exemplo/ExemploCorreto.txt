@@ -1,0 +1,16 @@
+public class Classe {
+
+	private String attr1;
+	private int attr2;
+	
+	public Classe(){
+		atributo1 = "teste";
+	}
+	
+	public void method(int param){
+		attr2 = param;
+	}
+}
+
+
+
