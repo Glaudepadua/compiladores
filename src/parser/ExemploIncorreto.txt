@@ -1,0 +1,17 @@
+public class Classe {
+
+	private String attr1;
+	private int attr2;
+	
+	public Classe(){
+		atributo = "teste";
+	}
+
+	private void String wrongMethod(){
+	}
+	
+	public void method(int param){
+		attr2 = param;
+	}
+}
+
