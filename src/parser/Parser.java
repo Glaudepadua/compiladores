@@ -20,11 +20,9 @@ public class Parser implements ParserConstants {
     {
       try
       {
-        System.out.println("\u005cnParser: Lendo o arquivo ExemploCorreto ...\u005cn");
-        parser = new Parser(new java.io.FileInputStream("ExemploCorreto.txt"));
+        parser = readFile("/exemplo/ExemploCorreto.txt");
         parser.Start();
-        System.out.println("\u005cnParser: Lendo o arquivo ExemploIncorreto ...\u005cn");
-        parser = new Parser(new java.io.FileInputStream("ExemploIncorreto.txt"));
+        parser = readFile("/exemplo/ExemploIncorreto.txt");
         parser.Start();
       }
       catch (java.io.FileNotFoundException e)
@@ -38,7 +36,7 @@ public class Parser implements ParserConstants {
       }
       finally
       {
-        //System.out.println(parser.token_source.foundLexError() + "Lexical Errors found");        System.out.println(parser.countParseError + "Syntactic Errors found");
+        //System.out.println(parser.token_source.foundLexError() + "Lexical Errors found");        System.out.println(parser.countParseError + " Syntactic Errors found");
       }
     }
     else
@@ -91,6 +89,13 @@ public class Parser implements ParserConstants {
     System.out.println(e.getMessage());
     countParseError++;
     if (eof) throw new ParseEOFException("EOF found prematurely.");
+  }
+
+  static public Parser readFile(String file) throws FileNotFoundException
+  {
+    String current = System.getProperty("user.dir");
+    System.out.println("\u005cnParser: Lendo o arquivo ...\u005cn" + current);
+    return new Parser(new java.io.FileInputStream(current + file));
   }
 
   final public void Start() throws ParseException, ParseEOFException {
@@ -1320,6 +1325,67 @@ public class Parser implements ParserConstants {
     finally { jj_save(3, xla); }
   }
 
+  private boolean jj_3_1() {
+    Token xsp;
+    xsp = jj_scanpos;
+    if (jj_scan_token(29)) jj_scanpos = xsp;
+    if (jj_3R_18()) return true;
+    if (jj_scan_token(SEMICOLON)) return true;
+    return false;
+  }
+
+  private boolean jj_3_4() {
+    Token xsp;
+    xsp = jj_scanpos;
+    if (jj_scan_token(55)) {
+    jj_scanpos = xsp;
+    if (jj_scan_token(27)) return true;
+    }
+    if (jj_scan_token(LPAREN)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_24() {
+    if (jj_scan_token(LBRACKET)) return true;
+    if (jj_scan_token(RBRACKET)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_18() {
+    Token xsp;
+    xsp = jj_scanpos;
+    if (jj_3R_20()) {
+    jj_scanpos = xsp;
+    if (jj_3R_21()) return true;
+    }
+    return false;
+  }
+
+  private boolean jj_3R_22() {
+    if (jj_scan_token(LPAREN)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_19() {
+    Token xsp;
+    xsp = jj_scanpos;
+    if (jj_scan_token(29)) jj_scanpos = xsp;
+    if (jj_scan_token(IDENT)) return true;
+    if (jj_3R_22()) return true;
+    return false;
+  }
+
+  private boolean jj_3_2() {
+    if (jj_3R_19()) return true;
+    return false;
+  }
+
+  private boolean jj_3R_25() {
+    if (jj_scan_token(COMMA)) return true;
+    if (jj_scan_token(IDENT)) return true;
+    return false;
+  }
+
   private boolean jj_3_3() {
     if (jj_3R_18()) return true;
     return false;
@@ -1364,67 +1430,6 @@ public class Parser implements ParserConstants {
       xsp = jj_scanpos;
       if (jj_3R_25()) { jj_scanpos = xsp; break; }
     }
-    return false;
-  }
-
-  private boolean jj_3_1() {
-    Token xsp;
-    xsp = jj_scanpos;
-    if (jj_scan_token(29)) jj_scanpos = xsp;
-    if (jj_3R_18()) return true;
-    if (jj_scan_token(SEMICOLON)) return true;
-    return false;
-  }
-
-  private boolean jj_3_4() {
-    Token xsp;
-    xsp = jj_scanpos;
-    if (jj_scan_token(55)) {
-    jj_scanpos = xsp;
-    if (jj_scan_token(27)) return true;
-    }
-    if (jj_scan_token(LPAREN)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_24() {
-    if (jj_scan_token(LBRACKET)) return true;
-    if (jj_scan_token(RBRACKET)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_18() {
-    Token xsp;
-    xsp = jj_scanpos;
-    if (jj_3R_20()) {
-    jj_scanpos = xsp;
-    if (jj_3R_21()) return true;
-    }
-    return false;
-  }
-
-  private boolean jj_3R_22() {
-    if (jj_scan_token(LPAREN)) return true;
-    return false;
-  }
-
-  private boolean jj_3_2() {
-    if (jj_3R_19()) return true;
-    return false;
-  }
-
-  private boolean jj_3R_19() {
-    Token xsp;
-    xsp = jj_scanpos;
-    if (jj_scan_token(29)) jj_scanpos = xsp;
-    if (jj_scan_token(IDENT)) return true;
-    if (jj_3R_22()) return true;
-    return false;
-  }
-
-  private boolean jj_3R_25() {
-    if (jj_scan_token(COMMA)) return true;
-    if (jj_scan_token(IDENT)) return true;
     return false;
   }
 
