@@ -27,7 +27,7 @@ public class Parser implements ParserConstants {
       }
       catch (java.io.FileNotFoundException e)
       {
-        System.out.println("Parser: O arquivo n\u00e3o foi encontrado.");
+        System.out.println("Parser: O arquivo n\u00c3\u00a3o foi encontrado.");
         return;
       }
       catch (ParseEOFException e)
@@ -36,12 +36,12 @@ public class Parser implements ParserConstants {
       }
       finally
       {
-        //System.out.println(parser.token_source.foundLexError() + "Lexical Errors found");        System.out.println(parser.countParseError + " Syntactic Errors found");
+        //System.out.println(parser.token_source.foundLexError() + "Lexical Errors found");        System.out.println(parser.countParseError + " erro(s) sint\u00e1ticos encontrados.");
       }
     }
     else
     {
-      System.out.println("Parser: Voc\u00ea deve usar da seguinte maneira:");
+      System.out.println("Parser: Voc\u00c3\u00aa deve usar da seguinte maneira:");
       System.out.println(" java Parser < file");
       System.out.println("Ou");
       System.out.println(" java Parser file");
@@ -70,7 +70,7 @@ public class Parser implements ParserConstants {
     Token tok;
     if (debug_recovery)
     {
-      System.out.println("\u005cn *** " + met + " *** \u005cn Syncronizing Set: " + g);
+      System.out.println("\u005cn *** " + met + " *** \u005cn Set sincronizador: " + g);
     }
     if (g == null) throw e;
     tok = getToken(1);
@@ -78,10 +78,10 @@ public class Parser implements ParserConstants {
     {
       if (g.contains(tok.kind))
       {
-        if (debug_recovery) System.out.println("Found syncronizing token: " + im(tok.kind));
+        if (debug_recovery) System.out.println("Token sincronizador encontrado: " + im(tok.kind));
         break;
       }
-      if (debug_recovery) System.out.println("Ignoring token: " + im(tok.kind));
+      if (debug_recovery) System.out.println("Token ignorado: " + im(tok.kind));
       getNextToken();
       tok = getToken(1);
       if (tok.kind == EOF && !g.contains(EOF)) eof = true;

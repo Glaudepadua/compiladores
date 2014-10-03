@@ -3,7 +3,7 @@ package recovery;
 import parser.ParserConstants;
 
 
-public class First { //implementa os conjuntos first p/ alguns n.terminais
+public class First {
 
 	static public final RecoverySet methoddecl = new RecoverySet();
 	static public final RecoverySet vardecl = new RecoverySet();
@@ -15,11 +15,19 @@ public class First { //implementa os conjuntos first p/ alguns n.terminais
 	static {
 		methoddecl.add(new Integer(ParserConstants.INT));
 		methoddecl.add(new Integer(ParserConstants.STRING));
+		methoddecl.add(new Integer(ParserConstants.BOOLEAN));
+		methoddecl.add(new Integer(ParserConstants.DOUBLE));
 		methoddecl.add(new Integer(ParserConstants.IDENT));
+		methoddecl.add(new Integer(ParserConstants.MODIFIER));
+		methoddecl.add(new Integer(ParserConstants.VOID_CONSTANT));
 
 		vardecl.add(new Integer(ParserConstants.INT));
 		vardecl.add(new Integer(ParserConstants.STRING));
+		vardecl.add(new Integer(ParserConstants.BOOLEAN));
+		vardecl.add(new Integer(ParserConstants.DOUBLE));
 		vardecl.add(new Integer(ParserConstants.IDENT));
+		vardecl.add(new Integer(ParserConstants.MODIFIER));
+		vardecl.add(new Integer(ParserConstants.VOID_CONSTANT));
 
 		classlist.add(new Integer(ParserConstants.CLASS));
 
