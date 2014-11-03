@@ -1,17 +1,14 @@
 package syntacticTree;
 
-import parser.*;
+import parser.Token;
 
+public class MethodDeclNode extends MethodInterfaceDeclNode {
 
-public class MethodDeclNode extends GeneralNode {
-    public int dim;
-    public Token name;
     public MethodBodyNode body;
-
-    public MethodDeclNode(Token t, int k, Token t2, MethodBodyNode b) {
-        super(t);
-        dim = k;
-        name = t2;
+	
+	public MethodDeclNode(Token t, int k, Token t2, Token t3, MethodBodyNode b) {
+		super(t, k, t2, t3);
         body = b;
-    }
+	}
+
 }
