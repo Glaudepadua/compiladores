@@ -145,7 +145,7 @@ public interface ParserConstants {
     "\"int\"",
     "\"boolean\"",
     "\"double\"",
-    "<LIST>",
+    "\"List\"",
     "\"new\"",
     "<MODIFIER>",
     "\"return\"",
