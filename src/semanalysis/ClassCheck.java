@@ -19,6 +19,12 @@ public class ClassCheck {
         Maintable.add(k);
         k = new EntrySimple("string");
         Maintable.add(k);
+        k = new EntrySimple("double");
+        Maintable.add(k);
+        k = new EntrySimple("List");
+        Maintable.add(k);
+        k = new EntrySimple("void");
+        Maintable.add(k);
     }
 
     public void ClassCheckRoot(ListNode x) throws SemanticException {

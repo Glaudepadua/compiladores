@@ -4,6 +4,8 @@ import java.io.*;
 import recovery.*;
 import syntacticTree.*;
 import semanalysis.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /** Token Manager. */
 public class ParserTokenManager implements ParserConstants

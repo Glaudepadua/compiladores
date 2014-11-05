@@ -1,7 +1,8 @@
 public class Classe {
 
-	private String attr1;
 	private int attr2;
+	private string atributo1;
+	private List<int> listInt;
 	
 	public Classe(){
 		atributo1 = "teste";
@@ -9,6 +10,7 @@ public class Classe {
 	
 	public void method(int param){
 		attr2 = param;
+		listInt = listInt + param;
 	}
 }
 
