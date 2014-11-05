@@ -94,7 +94,6 @@ public class TypeCheck extends VarCheck {
             return;
         }
 
-        TypeCheckClassDeclListNode(x.clist);
         TypeCheckVarDeclListNode(x.vlist);
         TypeCheckConstructDeclListNode(x.ctlist);
         TypeCheckMethodDeclListNode(x.mlist);

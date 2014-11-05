@@ -67,7 +67,6 @@ public class VarCheck extends ClassCheck {
             return;
         }
 
-        VarCheckClassDeclListNode(x.clist);
         VarCheckVarDeclListNode(x.vlist);
         VarCheckConstructDeclListNode(x.ctlist);
 

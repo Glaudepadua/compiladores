@@ -76,6 +76,5 @@ public class ClassCheck {
             return;
         }
 
-        ClassCheckClassDeclListNode(x.clist);
     }
 }
