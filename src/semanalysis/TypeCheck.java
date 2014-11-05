@@ -700,6 +700,35 @@ public class TypeCheck extends VarCheck {
 
         nesting--; // decrementa o aninhamento
     }
+    
+    public void TypeCheckWhileNode(WhileNode x) {
+        type t;
+
+        if (x == null) {
+            return;
+        }
+
+        // analisa expressão de controle
+        try {
+            t = TypeCheckExpreNode(x.expr);
+
+            if ((t.ty != INT_TYPE) || (t.dim != 0)) {
+                throw new SemanticException(x.expr.position,
+                    "Integer expression expected");
+            }
+        } catch (SemanticException e) {
+            System.out.println(e.getMessage());
+            foundSemanticError++;
+        }
+
+        try {
+            TypeCheckStatementNode(x.stat);
+        } catch (SemanticException e) {
+            System.out.println(e.getMessage());
+            foundSemanticError++;
+        }
+    }
+
 
     // --------------------------- Comando break --------------------
     public void TypeCheckBreakNode(BreakNode x) throws SemanticException {
@@ -1202,6 +1231,8 @@ public class TypeCheck extends VarCheck {
             TypeCheckIfNode((IfNode) x);
         } else if (x instanceof ForNode) {
             TypeCheckForNode((ForNode) x);
+        } else if (x instanceof WhileNode) {
+            TypeCheckWhileNode((WhileNode) x);
         } else if (x instanceof PrintNode) {
             TypeCheckPrintNode((PrintNode) x);
         } else if (x instanceof NopNode) {

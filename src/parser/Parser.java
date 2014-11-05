@@ -21,27 +21,40 @@ public class Parser implements ParserConstants {
     else if (args.length == 0)
     {
       ListNode root = null;
-      try{
+      try
+      {
         parser = readFile("/exemplo/ExemploCorreto.txt");
-        root = parser.Start();;
-      }catch (java.io.FileNotFoundException e){
+        root = parser.Start();
+        ;
+      }
+      catch (java.io.FileNotFoundException e)
+      {
         System.out.println("Parser: O arquivo n\u00c3\u00a3o foi encontrado.");
         return;
-      }catch (ParseEOFException e){
+      }
+      catch (ParseEOFException e)
+      {
         System.err.println(e.getMessage());
-      }finally{
+      }
+      finally
+      {
         //System.out.println(parser.token_source.foundLexError() + "Lexical Errors found");        System.out.println(parser.countParseError + " erro(s) sint\u00e1ticos encontrados.");
       }
-      if ( //parser.token_source.foundLexError() +  verifica se pode operar sobre           parser.countParseError == 0) {     // a árvore sintática
-        //if (print_tree) // exibir a árvore        //{        //    PrintTree prt = new PrintTree();        //    prt.printRoot(root);     // chama método para imprimir árvore        //}        TypeCheck tc = new TypeCheck();
-        try {
-             tc.TypeCheckRoot(root);
-             System.out.println("0 Semantic Errors found");
-        }catch (SemanticException e){
-            System.out.println(e.getMessage());
+      if ( //parser.token_source.foundLexError() +  verifica se pode operar sobre      parser.countParseError == 0)
+      { // a árvore sintática        //if (print_tree) // exibir a árvore        //{        //    PrintTree prt = new PrintTree();        //    prt.printRoot(root);     // chama método para imprimir árvore        //}        TypeCheck tc = new TypeCheck();
+        try
+        {
+          tc.TypeCheckRoot(root);
+          System.out.println("0 Semantic Errors found");
+        }
+        catch (SemanticException e)
+        {
+          System.out.println(e.getMessage());
         }
       }
-    }else{
+    }
+    else
+    {
       System.out.println("Parser: Voc\u00c3\u00aa deve usar da seguinte maneira:");
       System.out.println(" java Parser < file");
       System.out.println("Ou");
@@ -103,12 +116,11 @@ public class Parser implements ParserConstants {
     trace_call("Start");
     try {
   RecoverySet g = First.Start;
-
   ListNode l = null, d = null;
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case 0:
         jj_consume_token(0);
-           {if (true) return null;}
+    {if (true) return null;}
         break;
       case CLASS:
       case INTERFACE:
@@ -116,7 +128,7 @@ public class Parser implements ParserConstants {
         l = classlist(g);
         try {
           jj_consume_token(0);
-             {if (true) return l;}
+      {if (true) return l;}
         } catch (ParseException e) {
     consumeUntil(g, e, "Start");
         }
@@ -131,7 +143,7 @@ public class Parser implements ParserConstants {
           jj_la1[0] = jj_gen;
           ;
         }
-   {if (true) return l;}
+    {if (true) return l;}
         break;
       default:
         jj_la1[1] = jj_gen;
@@ -148,7 +160,6 @@ public class Parser implements ParserConstants {
     trace_call("classlist");
     try {
   RecoverySet f = First.classlist.union(g);
-
   ClassDeclNode c = null;
   InterfaceDeclNode i = null;
   ListNode l = null;
@@ -183,7 +194,7 @@ public class Parser implements ParserConstants {
         jj_consume_token(-1);
         throw new ParseException();
       }
-     {if (true) return new ListNode(c, l);}
+    {if (true) return new ListNode(c, l);}
     throw new Error("Missing return statement in function");
     } finally {
       trace_return("classlist");
@@ -193,8 +204,8 @@ public class Parser implements ParserConstants {
   final public InterfaceDeclNode interfacedecl(RecoverySet g, Token m) throws ParseException, ParseEOFException {
     trace_call("interfacedecl");
     try {
-        Token t = null, n = null, e1 = null;
-        InterfaceBodyNode i = null;
+  Token t = null, n = null, e1 = null;
+  InterfaceBodyNode i = null;
       try {
         t = jj_consume_token(INTERFACE);
         n = jj_consume_token(IDENT);
@@ -208,7 +219,7 @@ public class Parser implements ParserConstants {
           ;
         }
         i = interfacebody(g);
-     {if (true) return new InterfaceDeclNode(t, n, e1, m, i);}
+      {if (true) return new InterfaceDeclNode(t, n, e1, m, i);}
       } catch (ParseException e) {
     consumeUntil(g, e, "interfacedecl");
       }
@@ -221,10 +232,10 @@ public class Parser implements ParserConstants {
   final public InterfaceBodyNode interfacebody(RecoverySet g) throws ParseException, ParseEOFException {
     trace_call("interfacebody");
     try {
-Token t = null, t1 = null, t2 = null, t3 = null;
-ListNode m = null;
-MethodInterfaceDeclNode md;
-int k = 0;
+  Token t = null, t1 = null, t2 = null, t3 = null;
+  ListNode m = null;
+  MethodInterfaceDeclNode md;
+  int k = 0;
       try {
         t = jj_consume_token(LBRACE);
         label_1:
@@ -287,7 +298,7 @@ int k = 0;
               }
               jj_consume_token(LBRACKET);
               jj_consume_token(RBRACKET);
-                                                   k++;
+      k++;
             }
             break;
           case LIST:
@@ -300,13 +311,11 @@ int k = 0;
           }
           t2 = jj_consume_token(IDENT);
           jj_consume_token(SEMICOLON);
-                   if ( m == null)
-              m = new ListNode(new MethodInterfaceDeclNode(t1, k, t2, t3));
-          else
-              m.add(new MethodInterfaceDeclNode(t1, k, t2, t3));
+      if (m == null) m = new ListNode(new MethodInterfaceDeclNode(t1, k, t2, t3));
+      else m.add(new MethodInterfaceDeclNode(t1, k, t2, t3));
         }
         jj_consume_token(RBRACE);
-    {if (true) return new InterfaceBodyNode(t, m);}
+      {if (true) return new InterfaceBodyNode(t, m);}
       } catch (ParseException e) {
     consumeUntil(g, e, "interfacebody");
       }
@@ -319,8 +328,8 @@ int k = 0;
   final public ClassDeclNode classdecl(RecoverySet g, Token t4) throws ParseException, ParseEOFException {
     trace_call("classdecl");
     try {
-Token t = null, n = null, e1 = null;
-ClassBodyNode c = null;
+  Token t = null, n = null, e1 = null;
+  ClassBodyNode c = null;
       try {
         t = jj_consume_token(CLASS);
         n = jj_consume_token(IDENT);
@@ -343,7 +352,7 @@ ClassBodyNode c = null;
           ;
         }
         c = classbody(g);
-         {if (true) return new ClassDeclNode(t, n, e1, t4, c);}
+      {if (true) return new ClassDeclNode(t, n, e1, t4, c);}
       } catch (ParseException e) {
     consumeUntil(g, e, "classdecl");
     {if (true) return new ClassDeclNode(t, n, e1, t4, c);}
@@ -358,14 +367,11 @@ ClassBodyNode c = null;
     trace_call("classbody");
     try {
   RecoverySet f1 = new RecoverySet(RBRACE), f2 = new RecoverySet(SEMICOLON), f3 = First.methoddecl.union(f1), f4 = First.constructdecl.union(f3), f5 = First.vardecl.union(f4);
-
-ListNode v = null,
-         ct = null,
-         m = null;
-VarDeclNode vd = null;
-ConstructDeclNode cd = null;
-MethodDeclNode md = null;
-Token t = null;
+  ListNode v = null, ct = null, m = null;
+  VarDeclNode vd = null;
+  ConstructDeclNode cd = null;
+  MethodDeclNode md = null;
+  Token t = null;
       try {
         t = jj_consume_token(LBRACE);
         label_3:
@@ -386,10 +392,8 @@ Token t = null;
           vd = vardecl(f2);
           jj_consume_token(SEMICOLON);
         }
-       if ( v == null)
-              v = new ListNode(vd);
-          else
-              v.add(vd);
+      if (v == null) v = new ListNode(vd);
+      else v.add(vd);
         label_4:
         while (true) {
           if (jj_2_2(2)) {
@@ -399,10 +403,8 @@ Token t = null;
           }
           cd = constructdecl(f4);
         }
-      if ( ct == null)
-              ct = new ListNode(cd);
-          else
-              ct.add(cd);
+      if (ct == null) ct = new ListNode(cd);
+      else ct.add(cd);
         label_5:
         while (true) {
           switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -421,10 +423,8 @@ Token t = null;
             break label_5;
           }
           md = methoddecl(f3);
-      if ( m == null)
-              m = new ListNode(md);
-          else
-              m.add(md);
+      if (m == null) m = new ListNode(md);
+      else m.add(md);
         }
         jj_consume_token(RBRACE);
       {if (true) return new ClassBodyNode(t, v, ct, m);}
@@ -441,9 +441,9 @@ Token t = null;
   final public VarDeclNode vardecl(RecoverySet g) throws ParseException, ParseEOFException {
     trace_call("vardecl");
     try {
-Token t1 = null, t2;
-int k = 0;
-ListNode l = null;
+  Token t1 = null, t2;
+  int k = 0;
+  ListNode l = null;
       try {
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
         case STRING:
@@ -465,9 +465,9 @@ ListNode l = null;
             }
             jj_consume_token(LBRACKET);
             jj_consume_token(RBRACKET);
-                                                                k++;
+      k++;
           }
-         l = new ListNode(new VarNode(t2, k));
+      l = new ListNode(new VarNode(t2, k));
           label_7:
           while (true) {
             switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -479,7 +479,7 @@ ListNode l = null;
               break label_7;
             }
             jj_consume_token(COMMA);
-                    k = 0;
+      k = 0;
             t2 = jj_consume_token(IDENT);
             label_8:
             while (true) {
@@ -494,8 +494,8 @@ ListNode l = null;
               jj_consume_token(LBRACKET);
               jj_consume_token(RBRACKET);
             }
-                                                                          k++;
-         l.add(new VarNode(t2,k));
+      k++;
+      l.add(new VarNode(t2, k));
           }
           break;
         case LIST:
@@ -516,7 +516,7 @@ ListNode l = null;
             jj_consume_token(COMMA);
             jj_consume_token(IDENT);
           }
-   {if (true) return new VarDeclNode(t1,l);}
+      {if (true) return new VarDeclNode(t1, l);}
           break;
         default:
           jj_la1[19] = jj_gen;
@@ -536,8 +536,8 @@ ListNode l = null;
   final public ConstructDeclNode constructdecl(RecoverySet g) throws ParseException, ParseEOFException {
     trace_call("constructdecl");
     try {
-Token t = null;
-MethodBodyNode m = null;
+  Token t = null;
+  MethodBodyNode m = null;
       try {
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
         case MODIFIER:
@@ -549,10 +549,10 @@ MethodBodyNode m = null;
         }
         t = jj_consume_token(IDENT);
         m = methodbody(g);
-     {if (true) return new ConstructDeclNode(t, m);}
+      {if (true) return new ConstructDeclNode(t, m);}
       } catch (ParseException e) {
     consumeUntil(g, e, "constructdecl");
-    {if (true) return new ConstructDeclNode(t,m);}
+    {if (true) return new ConstructDeclNode(t, m);}
       }
     throw new Error("Missing return statement in function");
     } finally {
@@ -563,11 +563,9 @@ MethodBodyNode m = null;
   final public MethodDeclNode methoddecl(RecoverySet g) throws ParseException, ParseEOFException {
     trace_call("methoddecl");
     try {
-Token t1 = null,
-      t2 = null,
-      t3 = null;
-int k = 0;
-MethodBodyNode m = null;
+  Token t1 = null, t2 = null, t3 = null;
+  int k = 0;
+  MethodBodyNode m = null;
       try {
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
         case MODIFIER:
@@ -612,7 +610,7 @@ MethodBodyNode m = null;
             }
             jj_consume_token(LBRACKET);
             jj_consume_token(RBRACKET);
-                                                        k++;
+      k++;
           }
           break;
         case LIST:
@@ -625,7 +623,7 @@ MethodBodyNode m = null;
         }
         t2 = jj_consume_token(IDENT);
         m = methodbody(g);
-   {if (true) return new MethodDeclNode(t1, k, t2, t3, m);}
+      {if (true) return new MethodDeclNode(t1, k, t2, t3, m);}
       } catch (ParseException e) {
     consumeUntil(g, e, "methoddecl");
     {if (true) return new MethodDeclNode(t1, k, t2, t3, m);}
@@ -639,17 +637,16 @@ MethodBodyNode m = null;
   final public MethodBodyNode methodbody(RecoverySet g) throws ParseException, ParseEOFException {
     trace_call("methodbody");
     try {
-        RecoverySet f = new RecoverySet(RPAREN);
-
-        Token t1 = null;
-        ListNode l = null;
-        StatementNode s = null;
+  RecoverySet f = new RecoverySet(RPAREN);
+  Token t1 = null;
+  ListNode l = null;
+  StatementNode s = null;
       try {
         t1 = jj_consume_token(LPAREN);
         l = paramlist(f);
         jj_consume_token(RPAREN);
         s = statement(g);
-    {if (true) return new MethodBodyNode(t1, l, s);}
+      {if (true) return new MethodBodyNode(t1, l, s);}
       } catch (ParseException e) {
     consumeUntil(g, e, "methodbody");
     {if (true) return new MethodBodyNode(t1, l, s);}
@@ -663,10 +660,10 @@ MethodBodyNode m = null;
   final public ListNode paramlist(RecoverySet g) throws ParseException, ParseEOFException {
     trace_call("paramlist");
     try {
-        ListNode p = null, q = null;
-        int k = 0;
-        Token t1 = null;
-        Token t2 = null;
+  ListNode p = null, q = null;
+  int k = 0;
+  Token t1 = null;
+  Token t2 = null;
       try {
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
         case STRING:
@@ -695,9 +692,9 @@ MethodBodyNode m = null;
               }
               jj_consume_token(LBRACKET);
               jj_consume_token(RBRACKET);
-                                                                k++;
+        k++;
             }
-        q = new ListNode(new VarNode(t2,k));
+        q = new ListNode(new VarNode(t2, k));
         p = new ListNode(new VarDeclNode(t1, q));
             break;
           case LIST:
@@ -723,7 +720,7 @@ MethodBodyNode m = null;
             switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
             case COMMA:
               jj_consume_token(COMMA);
-                k = 0;
+        k = 0;
               t1 = type(g);
               t2 = jj_consume_token(IDENT);
               label_13:
@@ -738,9 +735,9 @@ MethodBodyNode m = null;
                 }
                 jj_consume_token(LBRACKET);
                 jj_consume_token(RBRACKET);
-                                                                                 k++;
+        k++;
               }
-        q = new ListNode(new VarNode(t2,k));
+        q = new ListNode(new VarNode(t2, k));
         p = new ListNode(new VarDeclNode(t1, q));
               break;
             case LIST:
@@ -758,7 +755,7 @@ MethodBodyNode m = null;
           jj_la1[30] = jj_gen;
           ;
         }
-       {if (true) return p;}
+      {if (true) return p;}
       } catch (ParseException e) {
     consumeUntil(g, e, "paramlist");
     {if (true) return null;}
@@ -772,7 +769,7 @@ MethodBodyNode m = null;
   final public Token type(RecoverySet g) throws ParseException, ParseEOFException {
     trace_call("type");
     try {
-Token t1 = null;
+  Token t1 = null;
       try {
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
         case INT:
@@ -789,7 +786,7 @@ Token t1 = null;
           break;
         case IDENT:
           t1 = jj_consume_token(IDENT);
-         {if (true) return t1;}
+      {if (true) return t1;}
           break;
         default:
           jj_la1[31] = jj_gen;
@@ -808,12 +805,11 @@ Token t1 = null;
   final public StatementNode statement(RecoverySet g) throws ParseException, ParseEOFException {
     trace_call("statement");
     try {
-        RecoverySet f1 = new RecoverySet(SEMICOLON);
-        RecoverySet f2 = new RecoverySet(RBRACE);
-
-        StatementNode s = null;
-        ListNode l;
-        Token t1 = null;
+  RecoverySet f1 = new RecoverySet(SEMICOLON);
+  RecoverySet f2 = new RecoverySet(RBRACE);
+  StatementNode s = null;
+  ListNode l;
+  Token t1 = null;
       try {
         if (jj_2_3(2)) {
           s = vardecl(f1);
@@ -845,21 +841,24 @@ Token t1 = null;
           case FOR:
             s = forstat(g);
             break;
+          case WHILE:
+            s = whilestat(g);
+            break;
           case LBRACE:
             t1 = jj_consume_token(LBRACE);
             l = statlist(f2);
             jj_consume_token(RBRACE);
-                                                 s = new BlockNode(t1, l);
+      s = new BlockNode(t1, l);
             break;
           case BREAK:
             t1 = jj_consume_token(BREAK);
             jj_consume_token(SEMICOLON);
-                                  s = new BreakNode(t1);
+      s = new BreakNode(t1);
             break;
           case SEMICOLON:
             t1 = jj_consume_token(SEMICOLON);
-                        s = new NopNode(t1);
-   {if (true) return s;}
+      s = new NopNode(t1);
+      {if (true) return s;}
             break;
           default:
             jj_la1[32] = jj_gen;
@@ -880,10 +879,9 @@ Token t1 = null;
   final public AtribNode atribstat(RecoverySet g) throws ParseException, ParseEOFException {
     trace_call("atribstat");
     try {
-        ExpreNode e1 = null, e2 = null;
-        Token t1 = null;
-
-        RecoverySet f1 = new RecoverySet(ASSIGN).union(g);
+  ExpreNode e1 = null, e2 = null;
+  Token t1 = null;
+  RecoverySet f1 = new RecoverySet(ASSIGN).union(g);
       try {
         e1 = lvalue(f1);
         t1 = jj_consume_token(ASSIGN);
@@ -906,10 +904,10 @@ Token t1 = null;
           jj_consume_token(-1);
           throw new ParseException();
         }
-          {if (true) return new AtribNode(t1, e1, e2);}
+      {if (true) return new AtribNode(t1, e1, e2);}
       } catch (ParseException e) {
     consumeUntil(g, e, "atribstat");
-        {if (true) return new AtribNode(t1, e1, e2);}
+    {if (true) return new AtribNode(t1, e1, e2);}
       }
     throw new Error("Missing return statement in function");
     } finally {
@@ -920,15 +918,15 @@ Token t1 = null;
   final public PrintNode printstat(RecoverySet g) throws ParseException, ParseEOFException {
     trace_call("printstat");
     try {
-        ExpreNode e1 = null;
-        Token t = null;
+  ExpreNode e1 = null;
+  Token t = null;
       try {
         t = jj_consume_token(PRINT);
         e1 = expression(g);
-          {if (true) return new PrintNode(t, e1);}
+      {if (true) return new PrintNode(t, e1);}
       } catch (ParseException e) {
     consumeUntil(g, e, "printstat");
-        {if (true) return new PrintNode(t, e1);}
+    {if (true) return new PrintNode(t, e1);}
       }
     throw new Error("Missing return statement in function");
     } finally {
@@ -939,15 +937,15 @@ Token t1 = null;
   final public ReadNode readstat(RecoverySet g) throws ParseException, ParseEOFException {
     trace_call("readstat");
     try {
-        ExpreNode e1 = null;
-        Token t = null;
+  ExpreNode e1 = null;
+  Token t = null;
       try {
         t = jj_consume_token(READ);
         e1 = lvalue(g);
-          {if (true) return new ReadNode(t, e1);}
+      {if (true) return new ReadNode(t, e1);}
       } catch (ParseException e) {
     consumeUntil(g, e, "readstat");
-        {if (true) return new ReadNode(t, e1);}
+    {if (true) return new ReadNode(t, e1);}
       }
     throw new Error("Missing return statement in function");
     } finally {
@@ -958,8 +956,8 @@ Token t1 = null;
   final public ReturnNode returnstat(RecoverySet g) throws ParseException, ParseEOFException {
     trace_call("returnstat");
     try {
-        ExpreNode e1 = null;
-        Token t = null;
+  ExpreNode e1 = null;
+  Token t = null;
       try {
         t = jj_consume_token(RETURN);
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -977,10 +975,10 @@ Token t1 = null;
           jj_la1[34] = jj_gen;
           ;
         }
-          {if (true) return new ReturnNode(t, e1);}
+      {if (true) return new ReturnNode(t, e1);}
       } catch (ParseException e) {
     consumeUntil(g, e, "returnstat");
-        {if (true) return new ReturnNode(t, e1);}
+    {if (true) return new ReturnNode(t, e1);}
       }
     throw new Error("Missing return statement in function");
     } finally {
@@ -991,19 +989,18 @@ Token t1 = null;
   final public SuperNode superstat(RecoverySet g) throws ParseException, ParseEOFException {
     trace_call("superstat");
     try {
-        ListNode l = null;
-        Token t = null;
-
-        RecoverySet f = new RecoverySet(RPAREN).union(g);
+  ListNode l = null;
+  Token t = null;
+  RecoverySet f = new RecoverySet(RPAREN).union(g);
       try {
         t = jj_consume_token(SUPER);
         jj_consume_token(LPAREN);
         l = arglist(f);
         jj_consume_token(RPAREN);
-          {if (true) return new SuperNode(t, l);}
+      {if (true) return new SuperNode(t, l);}
       } catch (ParseException e) {
     consumeUntil(g, e, "superstat");
-        {if (true) return new SuperNode(t, l);}
+    {if (true) return new SuperNode(t, l);}
       }
     throw new Error("Missing return statement in function");
     } finally {
@@ -1014,13 +1011,10 @@ Token t1 = null;
   final public IfNode ifstat(RecoverySet g) throws ParseException, ParseEOFException {
     trace_call("ifstat");
     try {
-        ExpreNode e1 = null;
-        StatementNode s1 = null,
-                                  s2 = null;
-        Token t = null;
-
-        RecoverySet f1 = new RecoverySet(RPAREN).union(g),
-                                f2 = new RecoverySet(ELSE).union(g);
+  ExpreNode e1 = null;
+  StatementNode s1 = null, s2 = null;
+  Token t = null;
+  RecoverySet f1 = new RecoverySet(RPAREN).union(g), f2 = new RecoverySet(ELSE).union(g);
       try {
         t = jj_consume_token(IF);
         jj_consume_token(LPAREN);
@@ -1033,6 +1027,7 @@ Token t1 = null;
           switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
           case IF:
           case FOR:
+          case WHILE:
           case BREAK:
           case STRING:
           case INT:
@@ -1057,10 +1052,10 @@ Token t1 = null;
           jj_la1[36] = jj_gen;
           ;
         }
-          {if (true) return new IfNode(t, e1, s1, s2);}
+      {if (true) return new IfNode(t, e1, s1, s2);}
       } catch (ParseException e) {
     consumeUntil(g, e, "ifstat");
-        {if (true) return new IfNode(t, e1, s1, s2);}
+    {if (true) return new IfNode(t, e1, s1, s2);}
       }
     throw new Error("Missing return statement in function");
     } finally {
@@ -1071,14 +1066,11 @@ Token t1 = null;
   final public ForNode forstat(RecoverySet g) throws ParseException, ParseEOFException {
     trace_call("forstat");
     try {
-        AtribNode s1 = null,
-          s2 = null;
-        StatementNode s3 = null;
-        ExpreNode e1 = null;
-        Token t = null;
-
-        RecoverySet f1 = new RecoverySet(SEMICOLON).union(g),
-        f2 = new RecoverySet(RPAREN).union(g);
+  AtribNode s1 = null, s2 = null;
+  StatementNode s3 = null;
+  ExpreNode e1 = null;
+  Token t = null;
+  RecoverySet f1 = new RecoverySet(SEMICOLON).union(g), f2 = new RecoverySet(RPAREN).union(g);
       try {
         t = jj_consume_token(FOR);
         jj_consume_token(LPAREN);
@@ -1117,10 +1109,10 @@ Token t1 = null;
         }
         jj_consume_token(RPAREN);
         s3 = statement(g);
-          {if (true) return new ForNode(t, e1, s1, s2, s3);}
+      {if (true) return new ForNode(t, e1, s1, s2, s3);}
       } catch (ParseException e) {
     consumeUntil(g, e, "forstat");
-        {if (true) return new ForNode(t, e1, s1, s2, s3);}
+    {if (true) return new ForNode(t, e1, s1, s2, s3);}
       }
     throw new Error("Missing return statement in function");
     } finally {
@@ -1128,17 +1120,55 @@ Token t1 = null;
     }
   }
 
+  final public WhileNode whilestat(RecoverySet g) throws ParseException, ParseEOFException {
+    trace_call("whilestat");
+    try {
+  StatementNode s1 = null;
+  ExpreNode e1 = null;
+  Token t = null;
+  RecoverySet f1 = new RecoverySet(SEMICOLON).union(g), f2 = new RecoverySet(RPAREN).union(g);
+      try {
+        t = jj_consume_token(WHILE);
+        jj_consume_token(LPAREN);
+        switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+        case INTEGER_CONSTANT:
+        case DOUBLE_CONSTANT:
+        case STRING_CONSTANT:
+        case NULL_CONSTANT:
+        case PLUS:
+        case MINUS:
+        case LPAREN:
+        case IDENT:
+          e1 = expression(f1);
+          break;
+        default:
+          jj_la1[40] = jj_gen;
+          ;
+        }
+        jj_consume_token(RPAREN);
+        s1 = statement(g);
+      {if (true) return new WhileNode(t, e1, s1);}
+      } catch (ParseException e) {
+    consumeUntil(g, e, "whilestat");
+    {if (true) return new WhileNode(t, e1, s1);}
+      }
+    throw new Error("Missing return statement in function");
+    } finally {
+      trace_return("whilestat");
+    }
+  }
+
   final public ListNode statlist(RecoverySet g) throws ParseException, ParseEOFException {
     trace_call("statlist");
     try {
-        ListNode l = null;
-        StatementNode s = null;
-
-        RecoverySet f = First.statlist.union(g);
+  ListNode l = null;
+  StatementNode s = null;
+  RecoverySet f = First.statlist.union(g);
       s = statement(f);
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case IF:
       case FOR:
+      case WHILE:
       case BREAK:
       case STRING:
       case INT:
@@ -1155,10 +1185,10 @@ Token t1 = null;
         l = statlist(g);
         break;
       default:
-        jj_la1[40] = jj_gen;
+        jj_la1[41] = jj_gen;
         ;
       }
-          {if (true) return new ListNode(s, l);}
+    {if (true) return new ListNode(s, l);}
     throw new Error("Missing return statement in function");
     } finally {
       trace_return("statlist");
@@ -1168,14 +1198,12 @@ Token t1 = null;
   final public ExpreNode lvalue(RecoverySet g) throws ParseException, ParseEOFException {
     trace_call("lvalue");
     try {
-        ExpreNode e1 = null,
-          e2 = null;
-        Token t1 = null,
-      t2 = null;
-        ListNode l = null;
+  ExpreNode e1 = null, e2 = null;
+  Token t1 = null, t2 = null;
+  ListNode l = null;
       try {
         t1 = jj_consume_token(IDENT);
-                     e1 = new VarNode(t1);
+      e1 = new VarNode(t1);
         label_14:
         while (true) {
           switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -1184,7 +1212,7 @@ Token t1 = null;
             ;
             break;
           default:
-            jj_la1[41] = jj_gen;
+            jj_la1[42] = jj_gen;
             break label_14;
           }
           switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -1192,7 +1220,7 @@ Token t1 = null;
             t1 = jj_consume_token(LBRACKET);
             e2 = expression(null);
             jj_consume_token(RBRACKET);
-                  e1 = new IndexNode(t1, e1, e2);
+      e1 = new IndexNode(t1, e1, e2);
             break;
           case DOT:
             t1 = jj_consume_token(DOT);
@@ -1204,21 +1232,21 @@ Token t1 = null;
               jj_consume_token(RPAREN);
               break;
             default:
-              jj_la1[42] = jj_gen;
+              jj_la1[43] = jj_gen;
               ;
             }
-          e1 = new CallNode(t1, e1, t2, l);
+      e1 = new CallNode(t1, e1, t2, l);
             break;
           default:
-            jj_la1[43] = jj_gen;
+            jj_la1[44] = jj_gen;
             jj_consume_token(-1);
             throw new ParseException();
           }
         }
-    {if (true) return e1;}
+      {if (true) return e1;}
       } catch (ParseException e) {
     consumeUntil(g, e, "lvalue");
-        {if (true) return new VarNode(t1);}
+    {if (true) return new VarNode(t1);}
       }
     throw new Error("Missing return statement in function");
     } finally {
@@ -1229,13 +1257,10 @@ Token t1 = null;
   final public ExpreNode alocexpression(RecoverySet g) throws ParseException, ParseEOFException {
     trace_call("alocexpression");
     try {
-        ExpreNode e1 = null,
-    e2 = null;
-        ListNode l = null;
-        Token t1, t2;
-
-        RecoverySet f1 = new RecoverySet(RPAREN).union(g),
-        f2 = new RecoverySet(RBRACKET).union(g);
+  ExpreNode e1 = null, e2 = null;
+  ListNode l = null;
+  Token t1, t2;
+  RecoverySet f1 = new RecoverySet(RPAREN).union(g), f2 = new RecoverySet(RBRACKET).union(g);
       t1 = jj_consume_token(NEW);
       if (jj_2_4(2)) {
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -1246,7 +1271,7 @@ Token t1 = null;
           t2 = jj_consume_token(LIST);
           break;
         default:
-          jj_la1[44] = jj_gen;
+          jj_la1[45] = jj_gen;
           jj_consume_token(-1);
           throw new ParseException();
         }
@@ -1267,23 +1292,21 @@ Token t1 = null;
             jj_consume_token(LBRACKET);
             e2 = expression(f2);
             jj_consume_token(RBRACKET);
-          if ( l == null )
-             l = new ListNode(e2);
-          else
-             l.add(e2);
+        if (l == null) l = new ListNode(e2);
+        else l.add(e2);
             switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
             case LBRACKET:
               ;
               break;
             default:
-              jj_la1[45] = jj_gen;
+              jj_la1[46] = jj_gen;
               break label_15;
             }
           }
       e1 = new NewArrayNode(t1, t2, l);
           break;
         default:
-          jj_la1[46] = jj_gen;
+          jj_la1[47] = jj_gen;
           jj_consume_token(-1);
           throw new ParseException();
         }
@@ -1298,8 +1321,8 @@ Token t1 = null;
   final public ExpreNode expression(RecoverySet g) throws ParseException, ParseEOFException {
     trace_call("expression");
     try {
-        ExpreNode e1 = null, e2 = null;
-        Token t = null;
+  ExpreNode e1 = null, e2 = null;
+  Token t = null;
       try {
         e1 = numexpr();
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -1329,15 +1352,15 @@ Token t1 = null;
             t = jj_consume_token(NE);
             break;
           default:
-            jj_la1[47] = jj_gen;
+            jj_la1[48] = jj_gen;
             jj_consume_token(-1);
             throw new ParseException();
           }
           e2 = numexpr();
-      e1 = new RelationalNode(t, e1, e2);
+        e1 = new RelationalNode(t, e1, e2);
           break;
         default:
-          jj_la1[48] = jj_gen;
+          jj_la1[49] = jj_gen;
           ;
         }
       {if (true) return e1;}
@@ -1354,8 +1377,8 @@ Token t1 = null;
   final public ExpreNode numexpr() throws ParseException, ParseEOFException {
     trace_call("numexpr");
     try {
-        ExpreNode e1 = null, e2;
-        Token t;
+  ExpreNode e1 = null, e2;
+  Token t;
       e1 = term();
       label_16:
       while (true) {
@@ -1365,7 +1388,7 @@ Token t1 = null;
           ;
           break;
         default:
-          jj_la1[49] = jj_gen;
+          jj_la1[50] = jj_gen;
           break label_16;
         }
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -1376,14 +1399,14 @@ Token t1 = null;
           t = jj_consume_token(MINUS);
           break;
         default:
-          jj_la1[50] = jj_gen;
+          jj_la1[51] = jj_gen;
           jj_consume_token(-1);
           throw new ParseException();
         }
         e2 = term();
-          e1 = new AddNode(t, e1, e2);
+      e1 = new AddNode(t, e1, e2);
       }
-   {if (true) return e1;}
+    {if (true) return e1;}
     throw new Error("Missing return statement in function");
     } finally {
       trace_return("numexpr");
@@ -1393,8 +1416,8 @@ Token t1 = null;
   final public ExpreNode term() throws ParseException, ParseEOFException {
     trace_call("term");
     try {
-        ExpreNode e1 = null, e2;
-        Token t;
+  ExpreNode e1 = null, e2;
+  Token t;
       e1 = unaryexpr();
       label_17:
       while (true) {
@@ -1405,7 +1428,7 @@ Token t1 = null;
           ;
           break;
         default:
-          jj_la1[51] = jj_gen;
+          jj_la1[52] = jj_gen;
           break label_17;
         }
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -1419,12 +1442,12 @@ Token t1 = null;
           t = jj_consume_token(REM);
           break;
         default:
-          jj_la1[52] = jj_gen;
+          jj_la1[53] = jj_gen;
           jj_consume_token(-1);
           throw new ParseException();
         }
         e2 = unaryexpr();
-          e1 = new MultNode(t, e1, e2);
+      e1 = new MultNode(t, e1, e2);
       }
     {if (true) return e1;}
     throw new Error("Missing return statement in function");
@@ -1436,8 +1459,8 @@ Token t1 = null;
   final public ExpreNode unaryexpr() throws ParseException, ParseEOFException {
     trace_call("unaryexpr");
     try {
-        ExpreNode e;
-        Token t = null;
+  ExpreNode e;
+  Token t = null;
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case PLUS:
       case MINUS:
@@ -1449,17 +1472,17 @@ Token t1 = null;
           t = jj_consume_token(MINUS);
           break;
         default:
-          jj_la1[53] = jj_gen;
+          jj_la1[54] = jj_gen;
           jj_consume_token(-1);
           throw new ParseException();
         }
         break;
       default:
-        jj_la1[54] = jj_gen;
+        jj_la1[55] = jj_gen;
         ;
       }
       e = factor();
-    {if (true) return ( (t == null) ? e : new UnaryNode(t, e));}
+    {if (true) return ((t == null) ? e : new UnaryNode(t, e));}
     throw new Error("Missing return statement in function");
     } finally {
       trace_return("unaryexpr");
@@ -1469,24 +1492,24 @@ Token t1 = null;
   final public ExpreNode factor() throws ParseException, ParseEOFException {
     trace_call("factor");
     try {
-        ExpreNode e = null;
-        Token t;
+  ExpreNode e = null;
+  Token t;
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case INTEGER_CONSTANT:
         t = jj_consume_token(INTEGER_CONSTANT);
-                               e = new IntConstNode(t);
+      e = new IntConstNode(t);
         break;
       case STRING_CONSTANT:
         t = jj_consume_token(STRING_CONSTANT);
-                              e = new StringConstNode(t);
+      e = new StringConstNode(t);
         break;
       case NULL_CONSTANT:
         t = jj_consume_token(NULL_CONSTANT);
-                            e = new NullConstNode(t);
+      e = new NullConstNode(t);
         break;
       case DOUBLE_CONSTANT:
         t = jj_consume_token(DOUBLE_CONSTANT);
-                              e = new DoubleConstNode(t);
+      e = new DoubleConstNode(t);
         break;
       case IDENT:
         e = lvalue(null);
@@ -1497,7 +1520,7 @@ Token t1 = null;
         jj_consume_token(RPAREN);
         break;
       default:
-        jj_la1[55] = jj_gen;
+        jj_la1[56] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
@@ -1511,9 +1534,9 @@ Token t1 = null;
   final public ListNode arglist(RecoverySet g) throws ParseException, ParseEOFException {
     trace_call("arglist");
     try {
-        ListNode l = null;
-        ExpreNode e = null;
-        RecoverySet f = new RecoverySet(COMMA).union(g);
+  ListNode l = null;
+  ExpreNode e = null;
+  RecoverySet f = new RecoverySet(COMMA).union(g);
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case INTEGER_CONSTANT:
       case DOUBLE_CONSTANT:
@@ -1524,7 +1547,7 @@ Token t1 = null;
       case LPAREN:
       case IDENT:
         e = expression(f);
-          l = new ListNode(e);
+      l = new ListNode(e);
         label_18:
         while (true) {
           switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -1532,19 +1555,19 @@ Token t1 = null;
             ;
             break;
           default:
-            jj_la1[56] = jj_gen;
+            jj_la1[57] = jj_gen;
             break label_18;
           }
           jj_consume_token(COMMA);
           e = expression(f);
-          l.add(e);
+        l.add(e);
         }
         break;
       default:
-        jj_la1[57] = jj_gen;
+        jj_la1[58] = jj_gen;
         ;
       }
-  {if (true) return l;}
+    {if (true) return l;}
     throw new Error("Missing return statement in function");
     } finally {
       trace_return("arglist");
@@ -1579,25 +1602,6 @@ Token t1 = null;
     finally { jj_save(3, xla); }
   }
 
-  private boolean jj_3R_19() {
-    Token xsp;
-    xsp = jj_scanpos;
-    if (jj_3R_21()) {
-    jj_scanpos = xsp;
-    if (jj_3R_22()) return true;
-    }
-    return false;
-  }
-
-  private boolean jj_3R_20() {
-    Token xsp;
-    xsp = jj_scanpos;
-    if (jj_scan_token(29)) jj_scanpos = xsp;
-    if (jj_scan_token(IDENT)) return true;
-    if (jj_3R_23()) return true;
-    return false;
-  }
-
   private boolean jj_3R_23() {
     if (jj_scan_token(LPAREN)) return true;
     return false;
@@ -1605,71 +1609,6 @@ Token t1 = null;
 
   private boolean jj_3_2() {
     if (jj_3R_20()) return true;
-    return false;
-  }
-
-  private boolean jj_3R_25() {
-    if (jj_scan_token(LBRACKET)) return true;
-    if (jj_scan_token(RBRACKET)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_27() {
-    if (jj_scan_token(IDENT)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_26() {
-    if (jj_scan_token(COMMA)) return true;
-    if (jj_scan_token(IDENT)) return true;
-    return false;
-  }
-
-  private boolean jj_3_3() {
-    if (jj_3R_19()) return true;
-    return false;
-  }
-
-  private boolean jj_3R_22() {
-    if (jj_scan_token(LIST)) return true;
-    if (jj_scan_token(LT)) return true;
-    if (jj_scan_token(GT)) return true;
-    if (jj_scan_token(IDENT)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_21() {
-    if (jj_3R_24()) return true;
-    if (jj_scan_token(IDENT)) return true;
-    Token xsp;
-    while (true) {
-      xsp = jj_scanpos;
-      if (jj_3R_25()) { jj_scanpos = xsp; break; }
-    }
-    while (true) {
-      xsp = jj_scanpos;
-      if (jj_3R_26()) { jj_scanpos = xsp; break; }
-    }
-    return false;
-  }
-
-  private boolean jj_3_4() {
-    Token xsp;
-    xsp = jj_scanpos;
-    if (jj_scan_token(55)) {
-    jj_scanpos = xsp;
-    if (jj_scan_token(27)) return true;
-    }
-    if (jj_scan_token(LPAREN)) return true;
-    return false;
-  }
-
-  private boolean jj_3_1() {
-    Token xsp;
-    xsp = jj_scanpos;
-    if (jj_scan_token(29)) jj_scanpos = xsp;
-    if (jj_3R_19()) return true;
-    if (jj_scan_token(SEMICOLON)) return true;
     return false;
   }
 
@@ -1692,6 +1631,90 @@ Token t1 = null;
     return false;
   }
 
+  private boolean jj_3R_20() {
+    Token xsp;
+    xsp = jj_scanpos;
+    if (jj_scan_token(29)) jj_scanpos = xsp;
+    if (jj_scan_token(IDENT)) return true;
+    if (jj_3R_23()) return true;
+    return false;
+  }
+
+  private boolean jj_3_4() {
+    Token xsp;
+    xsp = jj_scanpos;
+    if (jj_scan_token(55)) {
+    jj_scanpos = xsp;
+    if (jj_scan_token(27)) return true;
+    }
+    if (jj_scan_token(LPAREN)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_26() {
+    if (jj_scan_token(COMMA)) return true;
+    if (jj_scan_token(IDENT)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_25() {
+    if (jj_scan_token(LBRACKET)) return true;
+    if (jj_scan_token(RBRACKET)) return true;
+    return false;
+  }
+
+  private boolean jj_3_1() {
+    Token xsp;
+    xsp = jj_scanpos;
+    if (jj_scan_token(29)) jj_scanpos = xsp;
+    if (jj_3R_19()) return true;
+    if (jj_scan_token(SEMICOLON)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_21() {
+    if (jj_3R_24()) return true;
+    if (jj_scan_token(IDENT)) return true;
+    Token xsp;
+    while (true) {
+      xsp = jj_scanpos;
+      if (jj_3R_25()) { jj_scanpos = xsp; break; }
+    }
+    while (true) {
+      xsp = jj_scanpos;
+      if (jj_3R_26()) { jj_scanpos = xsp; break; }
+    }
+    return false;
+  }
+
+  private boolean jj_3R_27() {
+    if (jj_scan_token(IDENT)) return true;
+    return false;
+  }
+
+  private boolean jj_3_3() {
+    if (jj_3R_19()) return true;
+    return false;
+  }
+
+  private boolean jj_3R_22() {
+    if (jj_scan_token(LIST)) return true;
+    if (jj_scan_token(LT)) return true;
+    if (jj_scan_token(GT)) return true;
+    if (jj_scan_token(IDENT)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_19() {
+    Token xsp;
+    xsp = jj_scanpos;
+    if (jj_3R_21()) {
+    jj_scanpos = xsp;
+    if (jj_3R_22()) return true;
+    }
+    return false;
+  }
+
   /** Generated Token Manager. */
   public ParserTokenManager token_source;
   SimpleCharStream jj_input_stream;
@@ -1703,7 +1726,7 @@ Token t1 = null;
   private Token jj_scanpos, jj_lastpos;
   private int jj_la;
   private int jj_gen;
-  final private int[] jj_la1 = new int[58];
+  final private int[] jj_la1 = new int[59];
   static private int[] jj_la1_0;
   static private int[] jj_la1_1;
   static {
@@ -1711,10 +1734,10 @@ Token t1 = null;
       jj_la1_init_1();
    }
    private static void jj_la1_init_0() {
-      jj_la1_0 = new int[] {0x20030001,0x20030001,0x20000000,0x20030000,0x30000,0x40000,0x2f801000,0x20000000,0x7801000,0x0,0xf801000,0x40000,0x80000,0x20000000,0x2f801000,0x0,0x0,0x0,0x0,0xf800000,0x20000000,0x20000000,0x7801000,0x0,0xf801000,0x0,0xf800000,0x8000000,0x0,0x8000000,0xf800000,0x7800000,0xc0406000,0x10000ac0,0xac0,0xcfc06000,0x100000,0x0,0xac0,0x0,0xcfc06000,0x0,0x0,0x0,0x8000000,0x0,0x7800000,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0xac0,0x0,0xac0,};
+      jj_la1_0 = new int[] {0x20030001,0x20030001,0x20000000,0x20030000,0x30000,0x40000,0x2f801000,0x20000000,0x7801000,0x0,0xf801000,0x40000,0x80000,0x20000000,0x2f801000,0x0,0x0,0x0,0x0,0xf800000,0x20000000,0x20000000,0x7801000,0x0,0xf801000,0x0,0xf800000,0x8000000,0x0,0x8000000,0xf800000,0x7800000,0xc040e000,0x10000ac0,0xac0,0xcfc0e000,0x100000,0x0,0xac0,0x0,0xac0,0xcfc0e000,0x0,0x0,0x0,0x8000000,0x0,0x7800000,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0xac0,0x0,0xac0,};
    }
    private static void jj_la1_init_1() {
-      jj_la1_1 = new int[] {0x0,0x0,0x0,0x0,0x0,0x0,0x800000,0x0,0x800000,0x400000,0x800000,0x0,0x0,0x0,0x800000,0x400000,0x80000,0x400000,0x80000,0x800000,0x0,0x0,0x800000,0x400000,0x800000,0x400000,0x800000,0x80000,0x400000,0x80000,0x800000,0x800000,0x850003,0x804600,0x804600,0x850003,0x0,0x800000,0x804600,0x800000,0x850003,0x500000,0x4000,0x500000,0x800000,0x400000,0x800000,0x1f8,0x1f8,0x600,0x600,0x3800,0x3800,0x600,0x600,0x804000,0x80000,0x804600,};
+      jj_la1_1 = new int[] {0x0,0x0,0x0,0x0,0x0,0x0,0x800000,0x0,0x800000,0x400000,0x800000,0x0,0x0,0x0,0x800000,0x400000,0x80000,0x400000,0x80000,0x800000,0x0,0x0,0x800000,0x400000,0x800000,0x400000,0x800000,0x80000,0x400000,0x80000,0x800000,0x800000,0x850003,0x804600,0x804600,0x850003,0x0,0x800000,0x804600,0x800000,0x804600,0x850003,0x500000,0x4000,0x500000,0x800000,0x400000,0x800000,0x1f8,0x1f8,0x600,0x600,0x3800,0x3800,0x600,0x600,0x804000,0x80000,0x804600,};
    }
   final private JJCalls[] jj_2_rtns = new JJCalls[4];
   private boolean jj_rescan = false;
@@ -1731,7 +1754,7 @@ Token t1 = null;
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 58; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 59; i++) jj_la1[i] = -1;
     for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -1746,7 +1769,7 @@ Token t1 = null;
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 58; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 59; i++) jj_la1[i] = -1;
     for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -1757,7 +1780,7 @@ Token t1 = null;
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 58; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 59; i++) jj_la1[i] = -1;
     for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -1768,7 +1791,7 @@ Token t1 = null;
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 58; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 59; i++) jj_la1[i] = -1;
     for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -1778,7 +1801,7 @@ Token t1 = null;
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 58; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 59; i++) jj_la1[i] = -1;
     for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -1788,7 +1811,7 @@ Token t1 = null;
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 58; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 59; i++) jj_la1[i] = -1;
     for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -1907,7 +1930,7 @@ Token t1 = null;
       la1tokens[jj_kind] = true;
       jj_kind = -1;
     }
-    for (int i = 0; i < 58; i++) {
+    for (int i = 0; i < 59; i++) {
       if (jj_la1[i] == jj_gen) {
         for (int j = 0; j < 32; j++) {
           if ((jj_la1_0[i] & (1<<j)) != 0) {
