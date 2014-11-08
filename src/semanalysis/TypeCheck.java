@@ -21,7 +21,8 @@ public class TypeCheck extends VarCheck {
 	protected final EntrySimple NULL_TYPE;
 	protected EntryMethod CurMethod; // método sendo analisado
 	boolean cansuper; // indica se chamada super é permitida
-	protected HashMap<EntrySimple, List<EntrySimple>> types;
+	protected HashMap<EntryTable, List<EntryTable>> types;
+	private boolean whileNest;
 
 	public TypeCheck() {
 		super();
@@ -34,7 +35,7 @@ public class TypeCheck extends VarCheck {
 		BOOLEAN_TYPE = (EntrySimple) Maintable.classFindUp("boolean");
 		NULL_TYPE = new EntrySimple("$NULL$");
 		Maintable.add(NULL_TYPE);
-		types = new HashMap<EntrySimple, List<EntrySimple>>();
+		types = new HashMap<EntryTable, List<EntryTable>>();
 		types.put(INT_TYPE,
 				new ArrayList<>(Arrays.asList(INT_TYPE, STRING_TYPE)));
 		types.put(DOUBLE_TYPE,
@@ -651,7 +652,7 @@ public class TypeCheck extends VarCheck {
 		try {
 			t = TypeCheckExpreNode(x.expr);
 
-			if ((t.ty != INT_TYPE) || (t.dim != 0)) {
+			if ((t.ty != BOOLEAN_TYPE) || (t.dim != 0)) {
 				throw new SemanticException(x.expr.position,
 						"Integer expression expected");
 			}
@@ -695,7 +696,7 @@ public class TypeCheck extends VarCheck {
 		try {
 			t = TypeCheckExpreNode(x.expr);
 
-			if ((t.ty != INT_TYPE) || (t.dim != 0)) {
+			if ((t.ty != BOOLEAN_TYPE) || (t.dim != 0)) {
 				throw new SemanticException(x.expr.position,
 						"Integer expression expected");
 			}
@@ -735,7 +736,7 @@ public class TypeCheck extends VarCheck {
 		try {
 			t = TypeCheckExpreNode(x.expr);
 
-			if ((t.ty != INT_TYPE) || (t.dim != 0)) {
+			if ((t.ty != BOOLEAN_TYPE) || (t.dim != 0)) {
 				throw new SemanticException(x.expr.position,
 						"Integer expression expected");
 			}
@@ -745,7 +746,9 @@ public class TypeCheck extends VarCheck {
 		}
 
 		try {
+			whileNest = true;
 			TypeCheckStatementNode(x.stat);
+			whileNest = false;
 		} catch (SemanticException e) {
 			System.out.println(e.getMessage());
 			foundSemanticError++;
@@ -758,8 +761,7 @@ public class TypeCheck extends VarCheck {
 			return;
 		}
 
-		// verifica se está dentro de um for. Se não, ERRO
-		if (nesting <= 0) {
+		if (nesting <= 0 && whileNest == false) {
 			throw new SemanticException(x.position,
 					"break not in a for statement");
 		}
@@ -900,7 +902,10 @@ public class TypeCheck extends VarCheck {
 
 		// se ambos são int, retorna OK
 		if ((t1.ty == INT_TYPE) && (t2.ty == INT_TYPE)) {
-			return new type(INT_TYPE, 0);
+			return new type(BOOLEAN_TYPE, 0);
+		}
+		if ((t1.ty == DOUBLE_TYPE) && (t2.ty == DOUBLE_TYPE)) {
+			return new type(BOOLEAN_TYPE, 0);
 		}
 
 		// se a dimensão é diferente, ERRO
@@ -920,13 +925,13 @@ public class TypeCheck extends VarCheck {
 		// isso inclui 2 strings
 		if ((isSubClass(t2.ty, t1.ty) || isSubClass(t1.ty, t2.ty))
 				&& ((op == ParserConstants.NE) || (op == ParserConstants.EQ))) {
-			return new type(INT_TYPE, 0);
+			return new type(BOOLEAN_TYPE, 0);
 		}
 
 		// se um é objeto e outro null, pode comparar igualdade
 		if (((t1.ty instanceof EntryClass && (t2.ty == NULL_TYPE)) || (t2.ty instanceof EntryClass && (t1.ty == NULL_TYPE)))
 				&& ((op == ParserConstants.NE) || (op == ParserConstants.EQ))) {
-			return new type(INT_TYPE, 0);
+			return new type(BOOLEAN_TYPE, 0);
 		}
 
 		throw new SemanticException(x.position, "Invalid types for "
@@ -947,13 +952,6 @@ public class TypeCheck extends VarCheck {
 		t1 = TypeCheckExpreNode(x.expr1);
 		t2 = TypeCheckExpreNode(x.expr2);
 
-		listtype checkListOperation1 = checkListOperation(t1, t2);
-		if (checkListOperation1 != null)
-			return checkListOperation1;
-		listtype checkListOperation2 = checkListOperation(t2, t1);
-		if (checkListOperation2 != null)
-			return checkListOperation2;
-
 		// se dimensão > 0, ERRO
 		if ((t1.dim > 0) || (t2.dim > 0)) {
 			throw new SemanticException(x.position, "Can not use "
@@ -962,7 +960,8 @@ public class TypeCheck extends VarCheck {
 
 		EntryTable ty1 = t1.ty;
 		EntryTable ty2 = t2.ty;
-		List<EntrySimple> list = types.get(ty1);
+
+		List<EntryTable> list = types.get(ty1);
 		if (list != null) {
 			if (list.contains(ty2)) {
 				if (ty1.equals(STRING_TYPE) || ty2.equals(STRING_TYPE)) {
@@ -981,30 +980,11 @@ public class TypeCheck extends VarCheck {
 
 	}
 
-	public listtype checkListOperation(type t1, type t2) {
-		if (t1 instanceof listtype) {
-			listtype t1_ = (listtype) t1;
-			if (t2 instanceof listtype) {
-				listtype t2_ = (listtype) t2;
-				if (t1_.listType == t2_.listType) {
-					return new listtype(LIST_TYPE, 0, t1_.listType);
-				}
-			}
-			if (t1_.listType == t2.ty) {
-				return new listtype(LIST_TYPE, 0, t1_.listType);
-			}
-
-		}
-		return null;
-	}
-
 	// ---------------------- Multiplicação ou divisão --------------------
 	public type TypeCheckMultNode(MultNode x) throws SemanticException {
 		type t1;
 		type t2;
 		int op; // operação
-		int i;
-		int j;
 
 		if (x == null) {
 			return null;
@@ -1020,13 +1000,15 @@ public class TypeCheck extends VarCheck {
 					+ x.position.image + " for arrays");
 		}
 
-		// só dois int's são aceitos
-		if ((t1.ty != INT_TYPE) || (t2.ty != INT_TYPE)) {
+		List<EntryTable> list = types.get(t1.ty);
+		if (list != null) {
+			if (!list.contains(t2.ty)) {
 			throw new SemanticException(x.position, "Invalid types for "
 					+ x.position.image);
+			}
 		}
 
-		return new type(INT_TYPE, 0);
+		return new type(t1.ty, 0);
 	}
 
 	// ------------------------- Expressão unaria ------------------------
@@ -1110,7 +1092,9 @@ public class TypeCheck extends VarCheck {
 		
 		if(p instanceof EntryListVar){
 			EntryListVar p1 = (EntryListVar) p;
-			return new listtype(p1.type, p1.dim, p1.listType);
+			types.put(p1, new ArrayList<EntryTable>(Arrays.asList(p1, p1.listType)));
+			types.put(p1.listType, new ArrayList<EntryTable>(Arrays.asList(p1)));
+			return new type(p1, p1.dim);
 		}
 
 

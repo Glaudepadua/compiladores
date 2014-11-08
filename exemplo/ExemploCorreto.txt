@@ -1,4 +1,4 @@
-public class Classe {
+public class Classe extends SuperClasse {
 
 	private int attr2;
 	private string atributo1;
@@ -11,8 +11,19 @@ public class Classe {
 	public void method(int param){
 		attr2 = param;
 		listInt = listInt + param;
+		while(param > attr2){
+			break;
+		}
 	}
 }
 
+public class SuperClasse{
+}
+
+public interface IClasse {
+
+	public void method(int param);
+
+}
 
 

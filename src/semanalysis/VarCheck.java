@@ -60,7 +60,7 @@ public class VarCheck extends ClassCheck {
 				if (c == null) // Se não achou a interface, ERRO
 				{
 					throw new SemanticException(x.position, "Interface "
-							+ x.supername.image + " not found");
+							+ i.image + " not found");
 				}
 			}
 		}
