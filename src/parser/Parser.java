@@ -6,6 +6,7 @@ import syntacticTree.*;
 import semanalysis.*;
 import java.util.ArrayList;
 import java.util.List;
+import codegen.*;
 
 public class Parser implements ParserConstants {
   int countParseError = 0;
@@ -44,15 +45,18 @@ public class Parser implements ParserConstants {
       if ( //parser.token_source.foundLexError() +  verifica se pode operar sobre      parser.countParseError == 0)
       {
         PrintTree prt = new PrintTree();
-        prt.printRoot(root); // chama método para imprimir árvore        TypeCheck tc = new TypeCheck();
-        try
-        {
-          tc.TypeCheckRoot(root);
-          System.out.println("0 Semantic Errors found");
+        prt.printRoot(root); // chama método para imprimir árvore        CodeGen tc = new CodeGen();
+        try {
+             tc.CodeGenRoot(root, "/exemplo/ExemploCorreto.txt");
+             System.out.println("Code generated");
         }
-        catch (SemanticException e)
+        catch (SemanticException e1)
         {
-          System.out.println(e.getMessage());
+            System.out.println(e1.getMessage());
+        }
+        catch (Exception  e2)
+        {
+            System.out.println(e2.getMessage());
         }
       }
     }
